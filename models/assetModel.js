@@ -1,4 +1,4 @@
-// models/assetModel.js
+
 const { Pool } = require('pg');
 
 // Настройки подключения к PostgreSQL
@@ -6,7 +6,7 @@ const pool = new Pool({
   user: 'postgres',
   host: '172.24.81.54',
   database: 'crypto_portfolio',
-  password: '2005', // замени на свой пароль
+  password: '2005', 
   port: 5432,
 });
 

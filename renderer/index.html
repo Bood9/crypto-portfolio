@@ -9,12 +9,12 @@
 </head>
 <body>
   <div class="container">
-    <!-- Новый заголовок с логотипом и центровкой -->
+
     <div class="header-title" style="text-align: center; margin: 20px 0 70px 0; color: #00c896; font-size: 26px;">
       <i class="fas fa-wallet"></i> <strong>Crypto Portfolio</strong>
     </div>
 
-    <!-- Приветствие пользователя -->
+
     <div id="welcome-message" style="text-align: center; font-weight: bold; color: #fff; margin-bottom: 15px;"></div>
 
     <form id="asset-form" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px;">
@@ -52,15 +52,14 @@
         <option value="bar-y">Гистограмма (гориз.)</option>
       </select>
     </div>
-    
-    <!-- Диаграмма портфеля -->
+ 
     <div style="display: flex; justify-content: center; margin-top: 40px;">
       <div style="width: 400px; height: 400px;">
         <canvas id="portfolioChart"></canvas>
       </div>
     </div>
 
-    <!-- Модальное окно -->
+ 
     <div id="confirmModal" class="modal">
       <div class="modal-content">
         <p>Вы уверены, что хотите удалить актив?</p>
@@ -72,7 +71,7 @@
 
   <script src="renderer.js"></script>
   <script>
-    // Пример отображения имени пользователя (если ты передаёшь его как globalThis.currentUser или через preload)
+  
     const user = JSON.parse(localStorage.getItem('user'));
     if (user?.username) {
       const welcomeEl = document.getElementById('welcome-message');

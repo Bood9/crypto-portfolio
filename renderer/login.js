@@ -10,7 +10,7 @@ loginBtn.addEventListener('click', async () => {
   const result = await ipcRenderer.invoke('auth:login', { username, password });
 
   if (result.success) {
-    // Успешный вход — новое окно подгружается с main.js
+
   } else {
     errorEl.textContent = result.message || 'Неверный логин или пароль';
     errorEl.style.display = 'block';

@@ -1,4 +1,4 @@
-// controller/portfolio.js
+
 const assetModel = require('../models/assetModel');
 
 // Получить все активы (портфель)
@@ -10,7 +10,7 @@ async function getPortfolio() {
 async function addToPortfolio(data) {
   const { name, symbol, amount, price_usd } = data;
 
-  // Простая валидация
+
   if (!name || !symbol || amount <= 0 || price_usd <= 0) {
     throw new Error('Неверные данные');
   }
