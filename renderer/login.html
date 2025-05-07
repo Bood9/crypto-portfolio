@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Crypto Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(to bottom right, #1a1a1a, #2c2c2c);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+
+    .login-box {
+      background-color: #1e1e1e;
+      padding: 40px 35px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+      width: 360px;
+    }
+
+    .login-box h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 400;
+      color: #00c896;
+    }
+
+    .login-box input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 6px;
+      background-color: #2a2a2a;
+      color: #fff;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .login-box input::placeholder {
+      color: #aaa;
+    }
+
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background-color: #00c896;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-left: 10px;
+    }
+
+    .login-box button.loading {
+      background-color: #008f6d;
+      cursor: default;
+    }
+
+    .error {
+      color: #ff6b6b;
+      text-align: center;
+      margin-top: 15px;
+      display: none;
+    }
+
+    .spinner {
+      display: none;
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2><i class="fas fa-wallet"></i> Crypto Portfolio</h2>
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button id="login-btn">Login</button>
+    <div class="spinner" id="loading-text"><i class="fas fa-spinner fa-spin"></i> Проверка...</div>
+    <div id="login-error" class="error">Неверный логин или пароль</div>
+  </div>
+
+  <script>
+    const { ipcRenderer } = require('electron');
+    const loginBtn = document.getElementById('login-btn');
+    const errorBox = document.getElementById('login-error');
+    const spinner = document.getElementById('loading-text');
+
+    loginBtn.addEventListener('click', async () => {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!username || !password) {
+        errorBox.textContent = 'Введите имя пользователя и пароль';
+        errorBox.style.display = 'block';
+        return;
+      }
+
+      // Анимация
+      loginBtn.disabled = true;
+      loginBtn.classList.add('loading');
+      spinner.style.display = 'block';
+      errorBox.style.display = 'none';
+
+      const result = await ipcRenderer.invoke('auth:login', { username, password });
+
+      loginBtn.disabled = false;
+      loginBtn.classList.remove('loading');
+      spinner.style.display = 'none';
+
+      if (result.success) {
+        localStorage.setItem('username', result.user.username); // сохранить логин
+        errorBox.style.display = 'none';
+        // index.html будет загружен из main.js
+      } else {
+        errorBox.textContent = result.message || 'Ошибка входа';
+        errorBox.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>

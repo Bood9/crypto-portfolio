@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Crypto Portfolio</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <!-- Новый заголовок с логотипом и центровкой -->
+    <div class="header-title" style="text-align: center; margin: 20px 0 70px 0; color: #00c896; font-size: 26px;">
+      <i class="fas fa-wallet"></i> <strong>Crypto Portfolio</strong>
+    </div>
+
+    <!-- Приветствие пользователя -->
+    <div id="welcome-message" style="text-align: center; font-weight: bold; color: #fff; margin-bottom: 15px;"></div>
+
+    <form id="asset-form" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 20px;">
+      <input type="text" id="name" placeholder="Asset name" required>
+      <input type="text" id="symbol" placeholder="Symbol (например BTC)" required>
+      <input type="number" step="any" id="amount" placeholder="Amount" required>
+      <input type="number" step="any" id="price" placeholder="Price (USD)" required>
+      <button type="submit">Add</button>
+    </form>
+
+    <table id="asset-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Symbol</th>
+          <th>Amount</th>
+          <th>Price $</th>
+          <th>Total $</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <h3 style=" margin-top: 20px;">
+      Total Portfolio Value: <span id="total-value">$0.00</span>
+    </h3>
+
+    <div style="text-align: center; margin-top: 20px;">
+      <label for="chartType">Тип графика:</label>
+      <select id="chartType">
+        <option value="doughnut" selected>Кольцевая</option>
+        <option value="pie">Круговая</option>
+        <option value="bar">Гистограмма</option>
+        <option value="bar-y">Гистограмма (гориз.)</option>
+      </select>
+    </div>
+    
+    <!-- Диаграмма портфеля -->
+    <div style="display: flex; justify-content: center; margin-top: 40px;">
+      <div style="width: 400px; height: 400px;">
+        <canvas id="portfolioChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Модальное окно -->
+    <div id="confirmModal" class="modal">
+      <div class="modal-content">
+        <p>Вы уверены, что хотите удалить актив?</p>
+        <button id="confirmDelete">Да</button>
+        <button id="cancelDelete">Отмена</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+  <script>
+    // Пример отображения имени пользователя (если ты передаёшь его как globalThis.currentUser или через preload)
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user?.username) {
+      const welcomeEl = document.getElementById('welcome-message');
+      welcomeEl.textContent = `Добро пожаловать, ${user.username}!`;
+      setTimeout(() => {
+        welcomeEl.style.display = 'none';
+      }, 5000);
+    }
+  </script>
+</body>
+</html>
